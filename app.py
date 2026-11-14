@@ -1,1 +1,1 @@
-print("Hello from GitHub CI/CD")
+print("Webhook triggered Jenkins automatically!")
