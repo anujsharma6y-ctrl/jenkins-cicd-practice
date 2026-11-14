@@ -20,5 +20,12 @@ pipeline {
                 sh 'python3 test_app.py'
             }
         }
+        stage('Package') {
+            steps {
+               sh 'mkdir -p build'
+               sh 'cp app.py build/'
+             sh 'zip -r application.zip build/'
+    }
+}
     }
 }
