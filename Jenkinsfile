@@ -24,7 +24,13 @@ pipeline {
             steps {
                sh 'mkdir -p build'
                sh 'cp app.py build/'
-             sh 'zip -r application.zip build/'
+               sh 'zip -r application.zip build/'
+           }
+       }
+       stage('Archive') {
+            steps {
+             archiveArtifacts artifacts: 'application.zip',
+                     fingerprint: true
     }
 }
     }
