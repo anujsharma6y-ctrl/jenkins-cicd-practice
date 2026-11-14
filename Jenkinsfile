@@ -4,13 +4,20 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo 'Code fetched from GitHub'
+                checkout scm
             }
         }
 
         stage('Build') {
             steps {
+                sh 'python3 --version'
                 sh 'python3 app.py'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'python3 test_app.py'
             }
         }
     }
