@@ -1,6 +1,14 @@
-def add(a, b):
-    return a + b
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
-if __name__ == "__main__":
-    print("Webhook triggered Jenkins automatically!")
+class AppHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        self.wfile.write(b"Application deployed successfully!")
+
+
+server = HTTPServer(("0.0.0.0", 8000), AppHandler)
+print("Server running on port 8000")
+server.serve_forever()
