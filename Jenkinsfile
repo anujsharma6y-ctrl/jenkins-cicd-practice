@@ -21,7 +21,7 @@ pipeline {
             }
         }
         
-       stage('Docker Build') {
+       stage('Docker Build4') {
              steps {
                 sh 'docker build -t jenkins-practice-app:latest .'
            }
