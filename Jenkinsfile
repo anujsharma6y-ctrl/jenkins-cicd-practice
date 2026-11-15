@@ -16,6 +16,22 @@ pipeline {
             }
         }
 
+        stage('Test') {
+            steps {
+                sh '''
+                    python3 -m pytest \
+                        --junitxml=test-results.xml \
+                        --cov=. \
+                        --cov-report=xml
+                '''
+            }
+            post {
+                always {
+                    junit 'test-results.xml'
+                }
+            }
+        }
+
         stage('Docker Build') {
             steps {
                 sh 'docker build -t jenkins-practice-app:latest .'
@@ -78,4 +94,3 @@ pipeline {
         }
     }
 }
-
