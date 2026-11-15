@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -15,49 +16,52 @@ pipeline {
             }
         }
 
-        
-       stage('Docker Build4') {
-             steps {
+        stage('Docker Build') {
+            steps {
                 sh 'docker build -t jenkins-practice-app:latest .'
-           }
-       }
-      stage('Docker Run') {
-           steps {
-               sh 'docker run --rm jenkins-practice-app:latest'
-         } 
-      }
-      stage('Package') {
-            steps {
-               sh 'mkdir -p build'
-               sh 'cp app.py build/'
-               sh 'zip -r application.zip build/'
-           }
-       }
-       stage('Archive') {
-            steps {
-             archiveArtifacts artifacts: 'application.zip',
-                     fingerprint: true
-           }
-       }
-    
-
-stage('Parallel Checks') {
-    parallel {
-        stage('Python Check') {
-            steps {
-                sh 'python3 --version'
             }
         }
 
-        stage('Docker Check') {
+        stage('Docker Run') {
             steps {
-                sh 'docker --version'
+                sh 'docker run --rm jenkins-practice-app:latest'
             }
         }
 
-        stage('System Check') {
+        stage('Package') {
             steps {
-                sh 'uname -a'
+                sh 'mkdir -p build'
+                sh 'cp app.py build/'
+                sh 'zip -r application.zip build/'
+            }
+        }
+
+        stage('Archive') {
+            steps {
+                archiveArtifacts artifacts: 'application.zip',
+                    fingerprint: true
+            }
+        }
+
+        stage('Parallel Checks') {
+            parallel {
+                stage('Python Check') {
+                    steps {
+                        sh 'python3 --version'
+                    }
+                }
+
+                stage('Docker Check') {
+                    steps {
+                        sh 'docker --version'
+                    }
+                }
+
+                stage('System Check') {
+                    steps {
+                        sh 'uname -a'
+                    }
+                }
             }
         }
     }
