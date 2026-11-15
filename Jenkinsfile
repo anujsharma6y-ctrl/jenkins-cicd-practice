@@ -21,8 +21,12 @@ pipeline {
                 sh 'docker build -t jenkins-practice-app:latest .'
            }
        }
-
-        stage('Package') {
+      stage('Docker Run') {
+           steps {
+               sh 'docker run --rm jenkins-practice-app:latest'
+         } 
+      }
+      stage('Package') {
             steps {
                sh 'mkdir -p build'
                sh 'cp app.py build/'
