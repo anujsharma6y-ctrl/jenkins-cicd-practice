@@ -37,7 +37,28 @@ pipeline {
             steps {
              archiveArtifacts artifacts: 'application.zip',
                      fingerprint: true
-    }
-}
+           }
+       }
+    
+
+stage('Parallel Checks') {
+    parallel {
+        stage('Python Check') {
+            steps {
+                sh 'python3 --version'
+            }
+        }
+
+        stage('Docker Check') {
+            steps {
+                sh 'docker --version'
+            }
+        }
+
+        stage('System Check') {
+            steps {
+                sh 'uname -a'
+            }
+        }
     }
 }
