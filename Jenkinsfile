@@ -20,6 +20,13 @@ pipeline {
                 sh 'python3 test_app.py'
             }
         }
+        
+       stage('Docker Build') {
+             steps {
+                sh 'docker build -t jenkins-practice-app:latest .'
+           }
+       }
+
         stage('Package') {
             steps {
                sh 'mkdir -p build'
